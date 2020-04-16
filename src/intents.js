@@ -12,7 +12,16 @@ module.exports = {
         agent.add('Ela busca a melhor orientação para você, caso precise de um exame médico presencial e NÃO É uma ferramenta de diagnóstico.')
         agent.add('Em que posso ajudar?')
     },
-    
+
+    'Procurar dados por estado': (agent) => {
+        agent.add('Teste')
+        CovidController.getData(agent.parameters)
+    },
+
+    'Teste': (agent) => {
+        agent.add('Teste')
+    },
+
     'Exceção': (agent) => {
         selectAny(agent, [
             'Me desculpe, não entendi',
@@ -21,13 +30,4 @@ module.exports = {
         ])
         agent.add('Por favor, você poderia tentar de novo?')
     },
-
-    'Procurar dados': (agent) => {
-        agent.add('Teste')
-        CovidController.getData(agent.parameters)
-    },
-
-    'Teste': (agent) => {
-        agent.add('Teste')
-    }
 }
