@@ -1,23 +1,33 @@
-const utils = require('./utils');
+const {selectAny} = require('./utils')
+const CovidController = require('./controllers/CovidController')
 
-module.exports = dialogflow => {
-    dialogflow.intent('Boas vindas', conv => {
-        console.log('Boas vindas')
-        conv.add(utils.selectAny([
-            'Olá, boas vindas ao CoronaBot!',
-            'Oi, boas vindas ao CoronaBot!'
-        ]));
-        conv.ask('Em que posso te ajudar?');
-    });
+module.exports = {
+    'Boas vindas': (agent) => {
+        selectAny(agent, [
+            'Olá! 👋',
+            'Oi! 👋'
+        ])
+        agent.add('Este canal foi criado para verificar sintomas e esclarecer as suas dúvidas sobre o novo coronavírus (COVID-19).')
+        agent.add('Lembrando que esta é uma ferramenta de auxílio.')
+        agent.add('Ela busca a melhor orientação para você, caso precise de um exame médico presencial e NÃO É uma ferramenta de diagnóstico.')
+        agent.add('Em que posso ajudar?')
+    },
+    
+    'Exceção': (agent) => {
+        selectAny(agent, [
+            'Me desculpe, não entendi',
+            'Acho que não entendi',
+            'Não sei sobre isso'
+        ])
+        agent.add('Por favor, você poderia tentar de novo?')
+    },
 
-    dialogflow.intent('Exceção', conv => {
-        console.log('Exceção')
-        conv.add(utils.selectAny([
-            'Lamento, mas não compreendi.',
-            'Desculpe, mas não compreendi.',
-            'Infelizmente, não captei o que deseja.',
-            'Não consegui compreender, desculpe.'
-        ]));
-        conv.add('Por favor, poderia tentar novamente?');
-    })
+    'Procurar dados': (agent) => {
+        agent.add('Teste')
+        CovidController.getData(agent.parameters)
+    },
+
+    'Teste': (agent) => {
+        agent.add('Teste')
+    }
 }

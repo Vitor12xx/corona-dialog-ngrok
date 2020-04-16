@@ -1,5 +1,13 @@
+const {Suggestion} = require('dialogflow-fulfillment')
+
 module.exports = {
-    selectAny: (phrases) => {
-        return phrases.length > 0 ? phrases[Math.floor(Math.random() * phrases.length)] : null    
-    } 
+    selectAny: (agent, phrases) => {
+        return agent.add(phrases[Math.floor(Math.random() * phrases.length)])
+    },
+    
+    suggestions: (agent, items) => {
+        items.forEach(item => {
+            agent.add(new Suggestion(item))
+        });
+    }
 }
